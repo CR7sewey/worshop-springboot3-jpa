@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +28,7 @@ public class User implements Serializable { // transofmrar em cadeia de bytes pa
 	private String phone;
 	private String password;
 	
+	@JsonIgnore  // para resolver problema do loop!! objeto do lado do muitos carrega o do lado do 1!! - lazy loading
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>(); // temos de instanciae logo!
 
