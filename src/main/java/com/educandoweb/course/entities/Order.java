@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+import com.educandoweb.course.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
@@ -28,6 +29,8 @@ public class Order implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant moment;
 	
+	private Integer orderStatus;
+	
 //	@JsonIgnore  // para resolver problema do loop!! objeto do lado do muitos carrega o do lado do 1!! - lazy loading
 	@ManyToOne // JPA transfromar em chaves estrangeiras no Banco de dados, relacionamneto entre Order e User
 	@JoinColumn(name="client_id")
@@ -35,11 +38,12 @@ public class Order implements Serializable {
 
 	public Order() {} 
 	
-	public Order(Long id, Instant moment, User client) {
+	public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
 
 		this.id = id;
 		this.moment = moment;
 		this.client = client;
+		setOrderStatus(orderStatus); // this
 	}
 
 	public Long getId() {
@@ -57,6 +61,19 @@ public class Order implements Serializable {
 	public void setMoment(Instant moment) {
 		this.moment = moment;
 	}
+	
+	
+
+	public OrderStatus getOrderStatus() {
+		return OrderStatus.valueOf(orderStatus);
+	}
+
+	public void setOrderStatus(OrderStatus orderStatus) {
+		if (orderStatus != null) {
+			this.orderStatus = orderStatus.getCode();
+		}
+		
+	}
 
 	public User getClient() {
 		return client;
@@ -65,6 +82,8 @@ public class Order implements Serializable {
 	public void setClient(User client) {
 		this.client = client;
 	}
+	
+	
 
 	@Override
 	public int hashCode() {
