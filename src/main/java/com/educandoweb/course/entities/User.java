@@ -1,12 +1,15 @@
 package com.educandoweb.course.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity // depender da especificaçao e nao da implementacao
@@ -22,6 +25,9 @@ public class User implements Serializable { // transofmrar em cadeia de bytes pa
 	private String email;
 	private String phone;
 	private String password;
+	
+	@OneToMany(mappedBy = "client")
+	private List<Order> orders = new ArrayList<>(); // temos de instanciae logo!
 
 	private User() {
 	} // Obrigatorio ter vazio pq estamos a usar framework!
@@ -73,6 +79,10 @@ public class User implements Serializable { // transofmrar em cadeia de bytes pa
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public List<Order> getOrders() {  // nao pode ter setter
+		return orders;
 	}
 
 	@Override
