@@ -26,30 +26,31 @@ public class OrderItem implements Serializable {
 
 	private Integer quantity;
 	private Double price;
-		
-	public OrderItem() {}
 
-	public OrderItem(Order order, Product product,Integer quantity, Double price) {
-	
+	public OrderItem() {
+	}
+
+	public OrderItem(Order order, Product product, Integer quantity, Double price) {
+
 		id.setOrder(order);
 		id.setProduct(product);
 		this.quantity = quantity;
 		this.price = price;
 	}
-	
-	@JsonIgnore  // o que importa é o get que chama o pedido associado!
+
+	@JsonIgnore // o que importa é o get que chama o pedido associado!
 	public Order getOrder() {
 		return id.getOrder();
 	}
-	
+
 	public void setOrder(Order order) {
 		id.setOrder(order);
 	}
-	
+
 	public Product getProduct() {
 		return id.getProduct();
 	}
-	
+
 	public void setProduct(Product product) {
 		id.setProduct(product);
 	}
@@ -69,8 +70,12 @@ public class OrderItem implements Serializable {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-	
-	
+
+	public Double getSubTotal() { // tem de ter o get! pq é o que conta!
+
+		return quantity * price;
+
+	}
 
 	@Override
 	public int hashCode() {
@@ -88,7 +93,5 @@ public class OrderItem implements Serializable {
 		OrderItem other = (OrderItem) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
 
 }
