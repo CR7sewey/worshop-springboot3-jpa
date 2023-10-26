@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.educandoweb.course.entities.User;
 import com.educandoweb.course.repositories.UserRepository;
+import com.educandoweb.course.services.exceptions.DatabaseException;
 import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
 
 // registar a classe como componente do Spring
@@ -34,7 +37,15 @@ public class UserService {
 	}
 
 	public void delete(Long id) {
+		try {
 		repository.deleteById(id); // ja salva, do repository
+		}
+		catch (EmptyResultDataAccessException e) {  // delete something that isnt there (an id)
+			throw new ResourceNotFoundException(id);
+		}
+		catch (DataIntegrityViolationException e) {  // catch when delete something that as orders!
+			throw new DatabaseException(e.getMessage());
+		}
 
 	}
 	
