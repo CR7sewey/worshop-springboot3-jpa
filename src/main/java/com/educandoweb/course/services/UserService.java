@@ -13,16 +13,22 @@ import com.educandoweb.course.repositories.UserRepository;
 @Service
 public class UserService {
 
-	@Autowired  // spring faca a injecao de dependecia transparente ao programador
+	@Autowired // spring faca a injecao de dependecia transparente ao programador
 	private UserRepository repository;
-	
+
 	public List<User> findAll() {
 		return repository.findAll();
 	}
-	
+
 	public User findById(Long id) {
 		Optional<User> obj = repository.findById(id);
 		return obj.get(); // retonra um user dentro do opcional
 	}
-	
+
+	public User insert(User obj) {
+
+		return repository.save(obj); // ja salva, do repository
+
+	}
+
 }
