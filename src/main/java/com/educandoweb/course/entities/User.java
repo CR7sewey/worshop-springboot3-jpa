@@ -32,7 +32,7 @@ public class User implements Serializable { // transofmrar em cadeia de bytes pa
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>(); // temos de instanciae logo!
 
-	private User() {
+	public User() {
 	} // Obrigatorio ter vazio pq estamos a usar framework!
 
 	public User(Long id, String name, String email, String phone, String password) {
